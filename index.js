@@ -21,11 +21,15 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
-    await client.connect();
+      await client.connect();
 
-    const coursesCollection = client
+      const coursesCollection = client
       .db("CourseManagement")
       .collection("Courses");
+
+      const paymentsCollection = client.
+      db('CourseManagement').
+      collection('payments');
 
     console.log("db connected!!!!");
 
@@ -52,6 +56,12 @@ async function run() {
     // automatic_payment_methods: {
     //   enabled: true
     // },
+
+    app.post('/payments', async (req, res) => {
+      const payment = req.body;
+      const result = await paymentsCollection.insertOne(payment);
+      res.send(result);
+    })
 
     app.get("/allCourses", async (req, res) => {
       const courses = coursesCollection.find();
