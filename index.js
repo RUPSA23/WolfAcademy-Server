@@ -35,13 +35,18 @@ async function run() {
       const amount = await price*10;
       console.log("Price is: " + price);
       console.log("amount is: " + amount);
-      const paymentIntent = await stripe.paymentIntents.create({
-        amount: amount,
-        currency: "inr",
-        payment_method_types: ["card"]
-      });
-      console.log(paymentIntent.client_secret);
-      res.send({clientSecret: paymentIntent.client_secret});
+      try{
+        const paymentIntent = await stripe.paymentIntents.create({
+          amount: amount,
+          currency: "inr",
+          payment_method_types: ["card"]
+        });
+        console.log(paymentIntent.client_secret);
+        res.send({clientSecret: paymentIntent.client_secret});
+      } catch{
+        console.log("INSIDE CATCH: ERROR-----");
+        res.send({clientSecret: null});
+     }
     });
 
     // automatic_payment_methods: {
