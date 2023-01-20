@@ -32,7 +32,7 @@ async function run() {
     app.post("/create-payment-intent", async (req, res) => {
       const course = await req.body;
       const price = await course.price;
-      const amount = await price*10;
+      const amount = await price*100;
       console.log("Price is: " + price);
       console.log("amount is: " + amount);
       try{
